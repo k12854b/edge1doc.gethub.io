@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="fr"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>InterfaceCivilProtection</title>
+    <link rel="stylesheet" href="css/nicepage.css" media="screen">
+<link rel="stylesheet" href="css/InterfaceCivilProtection.css" media="screen">
+    <script class="u-script" type="text/javascript" src="js/jquery-1.9.1.min.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="js/nicepage.js" defer=""></script>
+    <meta name="generator" content="Nicepage 6.11.11, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css" />
+        <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/websocket.css">
+<!--Map definition-->
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/L.Control.Layers.Tree.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/roads_edge1_1.js"></script>
+        <script src="data/clip_129_buildings_2.js"></script>
+        <style>
+        #map {
+            width: 989px;
+            height: 627px;
+        }
+        </style>
+          <!--leaflet draw-->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+          <!--leaflet style editor and plugins-->
+          <link rel="stylesheet" href="css/Leaflet.StyleEditor.css">
+          <link rel="stylesheet" href="css/easy-button.css">
+          <link rel="stylesheet" href="css/L.Control.OpenCageSearch.css">
+          <link rel="stylesheet" href="css/fontawesome-all.min.css">
+          <script src="js/Control.Draw.js"></script>
+          <script src="js/easy-button.js"></script>
+          <script src="js/L.Control.Layers.Tree.js"></script>
+          <script src="js/L.Control.OpenCageSearch.js"></script>
+          <script src="js/Leaflet.Draw.Event.js"></script>
+          <script src="js/Leaflet.StyleEditor.js"></script>
+          <script src="js/Leaflet.StyleForms.js"></script>
+
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": ""
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="InterfaceCivilProtection">
+    <meta property="og:type" content="website">
+  <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
+  <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="fr"><header class="u-clearfix u-container-align-center u-grey-80 u-header u-header" id="sec-a88a"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <a href="C:\Users\popyg\Desktop\cloud\Acceuil.html" class="u-align-center u-border-none u-btn u-btn-round u-button-style u-grey-70 u-hover-grey-75 u-radius-50 u-text-active-white u-btn-1">Homepage </a>
+      </div></header>
+    <section class="u-clearfix u-grey-10 u-section-1" id="sec-295f">
+      <div class="data-layout-selected u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+        <div class="u-layout">
+          <div class="u-layout-row">
+            <div class="u-container-style u-grey-50 u-layout-cell u-size-40 u-layout-cell-1">
+              <div class="u-container-layout u-container-layout-1" id="map">
+          <!--map script-->
+                  <script src="js/mapCP.js"></script>
+          <!--leaflet draw-->
+          <script  src="js/Drawmap.js"></script>
+              </div>
+            </div>
+            <div class="u-container-style u-grey-80 u-layout-cell u-size-20 u-layout-cell-2">
+              <div class="u-container-layout u-container-layout-2">
+                <button onclick=""  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-1">Send invitation </button>
+                
+                <button  onclick="saveGeoJSON()" class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-2">Share to my team </button>
+                <script src="js/websocket.js"></script>
+                <script src="js/websocket-server.js"></script>
+                <script>
+                    map.on('draw:created', function (e) {
+                      var layer = e.layer;
+                      var geojson = layer.toGeoJSON();
+
+                      // Send the GeoJSON to the server
+                      saveGeoJSON(geojson);
+                  });
+
+                  function saveGeoJSON(geojson) {
+                      $.ajax({
+                          url: 'http://localhost:3000', // Full URL to your server endpoint
+                          type: 'POST',
+                          contentType: 'application/json',
+                          data: JSON.stringify(geojson),
+                          success: function (response) {
+                              alert('GeoJSON saved successfully! ID: ' + response.id);
+                          },
+                          error: function (error) {
+                              console.error('Error saving GeoJSON:', error);
+                          }
+                      });
+                  }
+                </script>
+                <button onclick=""  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-3">Share to other teams</button>
+                
+                <button onclick=""  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-hover-grey-75 u-radius-50 u-text-active-white u-btn-4">Disaster cleared </button>
+                <!--ADD SOCKET COMMUNICATION HERE-->
+                <div class="u-form u-form-1">
+                  <form action="https://forms.nicepagesrv.com/v2/form/process" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" style="padding: 10px;">
+                    <div class="u-form-group u-form-message">
+                      <textarea rows="4" cols="50" id="message-7003" name="messagerie" class="u-input u-input-rectangle, agent-rsv" required="required"></textarea>
+                    </div>
+                    <div class="u-form-group">
+                      <input id="agent-ipt-a1" type="text" placeholder="send your message..." id="email-7003" name="message" class="u-input u-input-rectangle" required="required">
+                    </div>
+                    <div class="u-align-left u-form-group u-form-submit">
+                      <button id="agent-btn-a1-to-a2" onclick="OnClickSendBtn(this)" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-grey-70 u-radius u-btn-5">To Police</button>
+                    </div>
+                    <div class="u-form-send-message u-form-send-success">Votre message a été envoyé. </div>
+                    <div class="u-form-send-error u-form-send-message"> Impossible d'envoyer votre message </div>
+                  </form>
+                </div>
+                <button id="agent-btn-a1-to-a3" onclick="OnClickSendBtn(this)" class="u-border-none u-btn u-btn-round u-button-style u-grey-70 u-radius u-btn-6">To SAMU </button>
+              </div>
+            </div>
+                <script src="js/websocketmain.js"></script>
+            </div>
+          </div>
+      </div>
+    </section>
+ 
+    <section class="u-backlink u-clearfix u-grey-80">
+      			
+		
+    
+    </section>
+</body></html>
