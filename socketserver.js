@@ -43,9 +43,6 @@ const pool = new Pool({
     port: 5432
 });
 
-
-const port = process.env.PORT || 3000;
-
 app.use(bodyParser.json());
 const cors = require('cors');
 app.use(cors());
