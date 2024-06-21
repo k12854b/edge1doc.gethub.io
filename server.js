@@ -1,47 +1,41 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { Pool } = require('pg');
-const fs = require('fs');
-const options = {
-  key: fs.readFileSync('D:/MAP CIVIL_PROTECTION/server-key.pem'),
-  cert: fs.readFileSync('D:/MAP CIVIL_PROTECTION/server.pem')
-};
+const { Client } = require('pg');
 
+const app = express();
+app.use(bodyParser.json());
 
-app.post('', async (req, res) => {
-    const geojson = req.body;
     const client = new Client({
       user: 'postgres',  
       host: 'localhost',
-      database: 'Disaster',  
+      database: 'disaster',  
       password: '1234',  
       port: 5432,
   });
 
-  await client.connect();
+  client.connect();
+  app.post('/save-geojson', (req, res) => {
+    const geoJson = req.body;
 
-    try {
+    const geometry = `POINT(${geoJson.geometry.coordinates[0]} ${geoJson.geometry.coordinates[1]})`;
+    const properties = JSON.stringify(geoJson.properties);
+
         const query = `
-            'INSERT INTO Disaster (type, propreties, geom)
-            VALUES ($1, $2, ST_SetSRID(ST_GeomFromGeoJSON($3), 4326), $4)
+            'INSERT INTO disaster (geometry, properties)
+            VALUES ($1, $2)
             RETURNING id';
         `;
         
-        const values = [
-            geojson.geometry.type,
-            JSON.stringify(geojson.properties),
-            JSON.stringify(geojson.geom)
-        ];
+        client.query(query, [geometry, properties], (err, result) => {
+            if (err) {
+              console.error(err);
+              res.status(500).send('Error saving data');
+            } else {
+              res.status(200).json({ id: result.rows[0].id });
+            }
+          });
+        });
         
-        const result = await pool.query(query, values);
-        res.status(200).json({ id: result.rows[0].id });
-    } catch (err) {
-        console.error('Error saving GeoJSON to database:', err);
-        res.status(500).json({ error: 'Failed to save GeoJSON' });
-        await client.end();
-    }
-});
- 
-app.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost:${PORT}`);
-});
+        app.listen(3000, () => {
+          console.log('Server is running on port 3000');
+        });
