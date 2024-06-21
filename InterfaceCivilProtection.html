@@ -64,28 +64,6 @@
     <meta property="og:title" content="InterfaceCivilProtection">
     <meta property="og:type" content="website">
   <meta data-intl-tel-input-cdn-path="intlTelInput/">
-<script>
-  //sending geojson data to server
-        function sendGeoJsonToServer() {
-            // Assuming `geoJsonData` is generated dynamically by the user's actions.
-        const geoJsonData = {
-          "type": "Feature",
-          "properties": properties,
-          "geometry": geometry
-        };
-
-        fetch('/save-geojson', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(geoJsonData)
-        })
-        .then(response => response.json())
-        .then(data => console.log('Success:', data))
-        .catch((error) => console.error('Error:', error));
-      }
-</script>
 </head>
   <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="fr"><header class="u-clearfix u-container-align-center u-grey-80 u-header u-header" id="sec-a88a"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
         <a href="https://k12854b.github.io/clouddoc.gethub.io/Index.html" class="u-align-center u-border-none u-btn u-btn-round u-button-style u-grey-70 u-hover-grey-75 u-radius-50 u-text-active-white u-btn-1">Homepage </a>
@@ -100,6 +78,28 @@
                   <script src="js/mapCP.js"></script>
           <!--leaflet draw-->
           <script  src="js/Drawmap.js"></script>
+          <script>
+            //sending geojson data to server
+                  function sendGeoJsonToServer() {
+                      // Assuming `geoJsonData` is generated dynamically by the user's actions.
+                  const geoJsonData = {
+                    "type": "Feature",
+                    "properties": properties,
+                    "geometry": geometry
+                  };
+          
+                  fetch('/save-geojson', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(geoJsonData)
+                  })
+                  .then(response => response.json())
+                  .then(data => console.log('Success:', data))
+                  .catch((error) => console.error('Error:', error));
+                }
+          </script>
               </div>
             </div>
             <div class="u-container-style u-grey-80 u-layout-cell u-size-20 u-layout-cell-2">
