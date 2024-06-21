@@ -27,19 +27,6 @@ var fDrawGroup= new L.FeatureGroup();
                 fDrawGroup.addLayer(layer);
                 alert(JSON.stringify(e.layer.toGeoJSON()));
               });
-//sending geojson data to server
-              const geoJsonData = e.layer.toGeoJSON();
-
-              fetch('/save-geojson', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(geoJsonData)
-              })
-              .then(response => response.json())
-              .then(data => console.log('Success:', data))
-              .catch((error) => console.error('Error:', error));
         //edit colors
         var ctlStyle;
   

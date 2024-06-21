@@ -63,7 +63,61 @@
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="InterfaceCivilProtection">
     <meta property="og:type" content="website">
-  <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
+  <meta data-intl-tel-input-cdn-path="intlTelInput/">
+<script>
+  //sending geojson data to server
+  function sendGeoJsonToServer() {
+      // Assuming `geoJsonData` is generated dynamically by the user's actions.
+      const validTypes = ['LineString', 'Point', 'Polygon', 'Circle'];
+  if (!validTypes.includes(type)) {
+    console.error('Invalid type specified.');
+    return;
+  }
+
+  // Structure the GeoJSON data based on the type
+  let geometry;
+  if (type === 'Point') {
+    geometry = {
+      "type": "Point",
+      "coordinates": coordinates
+    };
+  } else if (type === 'LineString') {
+    geometry = {
+      "type": "LineString",
+      "coordinates": coordinates
+    };
+  } else if (type === 'Polygon') {
+    geometry = {
+      "type": "Polygon",
+      "coordinates": [coordinates]
+    };
+  } else if (type === 'Circle') {
+    geometry = {
+      "type": "Point",
+      "coordinates": coordinates.center,
+      "radius": coordinates.radius
+    };
+  }
+
+  const geoJsonData = {
+    "type": "Feature",
+    "geometry": geometry,
+    "properties": properties
+  };
+
+  fetch('/save-geojson', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(geoJsonData)
+  })
+  .then(response => response.json())
+  .then(data => console.log('Success:', data))
+  .catch((error) => console.error('Error:', error));
+}
+</script>
+</head>
   <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="fr"><header class="u-clearfix u-container-align-center u-grey-80 u-header u-header" id="sec-a88a"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
         <a href="https://k12854b.github.io/clouddoc.gethub.io/Index.html" class="u-align-center u-border-none u-btn u-btn-round u-button-style u-grey-70 u-hover-grey-75 u-radius-50 u-text-active-white u-btn-1">Homepage </a>
       </div></header>
@@ -83,33 +137,7 @@
               <div class="u-container-layout u-container-layout-2">
                 <button onclick=""  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-1">Send invitation </button>
                 
-                <button  onclick="saveGeoJSON()" class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-2">Share to my team </button>
-                <script src="js/websocket.js"></script>
-                <script src="js/websocket-server.js"></script>
-                <script>
-                    map.on('draw:created', function (e) {
-                      var layer = e.layer;
-                      var geojson = layer.toGeoJSON();
-
-                      // Send the GeoJSON to the server
-                      saveGeoJSON(geojson);
-                  });
-
-                  function saveGeoJSON(geojson) {
-                      $.ajax({
-                          url: 'http://localhost:3000', // Full URL to your server endpoint
-                          type: 'POST',
-                          contentType: 'application/json',
-                          data: JSON.stringify(geojson),
-                          success: function (response) {
-                              alert('GeoJSON saved successfully! ID: ' + response.id);
-                          },
-                          error: function (error) {
-                              console.error('Error saving GeoJSON:', error);
-                          }
-                      });
-                  }
-                </script>
+                <button  onclick="sendGeoJsonToServer()" class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-2">Share to my team </button>
                 <button onclick=""  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-3">Share to other teams</button>
                 
                 <button onclick=""  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-hover-grey-75 u-radius-50 u-text-active-white u-btn-4">Disaster cleared </button>
