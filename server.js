@@ -10,7 +10,7 @@ app.use(cors());
     const client = new Client({
       user: 'postgres',  
       host: 'localhost',
-      database: 'disaster',  
+      database: 'edge1_CP',  
       password: '1234',  
       port: 5432,
   });
