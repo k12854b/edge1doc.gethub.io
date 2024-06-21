@@ -46,3 +46,4 @@ var fDrawGroup= new L.FeatureGroup();
         function latLngToString(ll) {
           return "["+ll.lat.toFixed(5)+","+ll.lng.toFixed(5)+"]";
         }
+        
