@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Client } = require('pg');
-
+const cors = require('cors');
 const app = express();
+
 app.use(bodyParser.json());
+app.use(cors());
 
     const client = new Client({
       user: 'postgres',  
