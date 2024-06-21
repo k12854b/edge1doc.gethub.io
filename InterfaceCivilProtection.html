@@ -66,7 +66,7 @@
   <meta data-intl-tel-input-cdn-path="intlTelInput/">
 <script>
   //sending geojson data to server
-        function sendGeoJsonToServer(type, properties, geometry) {
+        function sendGeoJsonToServer() {
             // Assuming `geoJsonData` is generated dynamically by the user's actions.
         const geoJsonData = {
           "type": "Feature",
@@ -106,7 +106,7 @@
               <div class="u-container-layout u-container-layout-2">
                 <button onclick=""  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-1">Send invitation </button>
                 
-                <button  onclick="sendGeoJsonToServer(type, properties, geometry)" class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-2">Share to my team </button>
+                <button  onclick="sendGeoJsonToServer()" class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-2">Share to my team </button>
                 <button onclick=""  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-3">Share to other teams</button>
                 
                 <button onclick=""  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-hover-grey-75 u-radius-50 u-text-active-white u-btn-4">Disaster cleared </button>
