@@ -28,7 +28,7 @@ var fDrawGroup= new L.FeatureGroup();
                 var geoJsonLayer = layer.toGeoJSON();
 
                 // Add the GeoJSON object to your array
-                drawnItems.push(geoJsonLayer);
+                fDrawGroup.push(geoJsonLayer);
 
                 // Optionally, you can add the layer to a feature group on the map
                 fDrawGroup.addLayer(layer);
