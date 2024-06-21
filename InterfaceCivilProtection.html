@@ -66,56 +66,25 @@
   <meta data-intl-tel-input-cdn-path="intlTelInput/">
 <script>
   //sending geojson data to server
-  function sendGeoJsonToServer(type, coordinates, properties) {
-      // Assuming `geoJsonData` is generated dynamically by the user's actions.
-      const validTypes = ['LineString', 'Point', 'Polygon', 'Circle'];
-  if (!validTypes.includes(type)) {
-    console.error('Invalid type specified.');
-    return;
-  }
+        function sendGeoJsonToServer(type, properties, geometry) {
+            // Assuming `geoJsonData` is generated dynamically by the user's actions.
+        const geoJsonData = {
+          "type": "Feature",
+          "properties": properties,
+          "geometry": geometry
+        };
 
-  // Structure the GeoJSON data based on the type
-  let geometry;
-  if (type === 'Point') {
-    geometry = {
-      "type": "Point",
-      "coordinates": coordinates
-    };
-  } else if (type === 'LineString') {
-    geometry = {
-      "type": "LineString",
-      "coordinates": coordinates
-    };
-  } else if (type === 'Polygon') {
-    geometry = {
-      "type": "Polygon",
-      "coordinates": [coordinates]
-    };
-  } else if (type === 'Circle') {
-    geometry = {
-      "type": "Point",
-      "coordinates": coordinates.center,
-      "radius": coordinates.radius
-    };
-  }
-
-  const geoJsonData = {
-    "type": "Feature",
-    "geometry": geometry,
-    "properties": properties
-  };
-
-  fetch('/save-geojson', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(geoJsonData)
-  })
-  .then(response => response.json())
-  .then(data => console.log('Success:', data))
-  .catch((error) => console.error('Error:', error));
-}
+        fetch('/save-geojson', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(geoJsonData)
+        })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => console.error('Error:', error));
+      }
 </script>
 </head>
   <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="fr"><header class="u-clearfix u-container-align-center u-grey-80 u-header u-header" id="sec-a88a"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">

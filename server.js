@@ -17,31 +17,36 @@ app.use(cors());
 
   client.connect();
   app.post('/save-geojson', (req, res) => {
-    const geoJson = req.body;
-    let geometry;
+    const geoJsonData = req.body;
 
-   // Handle different geometry types
-  switch (geoJson.geometry.type) {
+     // Extract type, properties, and geometry from GeoJSON data
+  const { type, properties, geometry } = geoJsonData;
+
+  let geoJsonGeometry;
+  let queryValues;
+
+   
+  // Handle different geometry types
+  switch (geometry.type) {
     case 'Point':
-      geometry = `POINT(${geoJson.geometry.coordinates[0]} ${geoJson.geometry.coordinates[1]})`;
+      geoJsonGeometry = `POINT(${geometry.coordinates[0]} ${geometry.coordinates[1]})`;
       break;
     case 'LineString':
-      geometry = `LINESTRING(${geoJson.geometry.coordinates.map(coord => `${coord[0]} ${coord[1]}`).join(', ')})`;
+      geoJsonGeometry = `LINESTRING(${geometry.coordinates.map(coord => `${coord[0]} ${coord[1]}`).join(', ')})`;
       break;
     case 'Polygon':
-      geometry = `POLYGON((${geoJson.geometry.coordinates[0].map(coord => `${coord[0]} ${coord[1]}`).join(', ')}))`;
+      geoJsonGeometry = `POLYGON((${geometry.coordinates[0].map(coord => `${coord[0]} ${coord[1]}`).join(', ')}))`;
       break;
     case 'Circle':
-      // Circles are not a standard GeoJSON type; this assumes you want to store the center as a point and save the radius separately
-      geometry = `POINT(${geoJson.geometry.coordinates.center[0]} ${geoJson.geometry.coordinates.center[1]})`;
+      // Example handling for Circle (adjust as per your application's needs)
+      geoJsonGeometry = `POINT(${geometry.coordinates.center[0]} ${geometry.coordinates.center[1]})`;
       // You might want to handle the radius differently depending on your requirements
       break;
     default:
-      res.status(400).send('Invalid geometry type');
-      return;
+      return res.status(400).send('Invalid geometry type');
   }
 
-  const properties = JSON.stringify(geoJson.properties);
+  const propertiesString = JSON.stringify(properties);
 
   const query = `
     INSERT INTO disaster (geometry, properties)
@@ -49,12 +54,12 @@ app.use(cors());
     RETURNING id;
   `;
 
-  client.query(query, [geometry, properties], (err, result) => {
+  client.query(query, [geoJsonGeometry, propertiesString], (err, result) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error saving data');
+      return res.status(500).send('Error saving data');
     } else {
-      res.status(200).json({ id: result.rows[0].id });
+      return res.status(200).json({ id: result.rows[0].id });
     }
   });
 });
