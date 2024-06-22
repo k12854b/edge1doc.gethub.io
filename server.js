@@ -71,3 +71,14 @@ app.get('/get-geojson', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch GeoJSON data' });
   }
 });
+// Endpoint to delete all GeoJSON data
+app.delete('/delete-geojson', async (req, res) => {
+  try {
+    const query = 'DELETE FROM geojson_features';
+    await pool.query(query);
+    res.json({ message: 'All GeoJSON data deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting data from database:', error);
+    res.status(500).json({ error: 'Failed to delete GeoJSON data' });
+  }
+});

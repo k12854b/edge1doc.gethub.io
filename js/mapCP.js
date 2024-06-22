@@ -214,3 +214,22 @@ function loadGeoJsonData() {
     .catch(error => console.error('Error loading GeoJSON data:', error));
 }
 loadGeoJsonData();
+
+// Function to delete all GeoJSON data
+      function deleteAllGeoJson() {
+        fetch('http://localhost:3000/delete-geojson', {
+          method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          // Optionally, remove all layers from the map
+          map.eachLayer((layer) => {
+            if (layer instanceof L.GeoJSON) {
+              map.removeLayer(layer);
+            }
+          });
+          // Reload GeoJSON data or handle UI updates
+        })
+        .catch(error => console.error('Error deleting GeoJSON data:', error));
+      }
