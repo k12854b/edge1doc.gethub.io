@@ -176,21 +176,7 @@ var cloud = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
               {
                 var type = e.layerType;
               var layer = e.layer;
-
-              // Convert the drawn layer to GeoJSON
-              var geoJsonLayer = layer.toGeoJSON();
-
-              // Add the GeoJSON object to your array
-              drawnItems.push(geoJsonLayer);
-
-              // Add the layer to fDrawGroup (assuming fDrawGroup is a L.FeatureGroup)
-              fDrawGroup.addLayer(layer);
-
-              // You can do further processing with the GeoJSON object if needed
-              console.log("GeoJSON object:", geoJsonLayer);
-
-              // Example: Alerting the GeoJSON string representation
-              alert(JSON.stringify(geoJsonLayer));
+              alert(JSON.stringify(drawnItems));
               });
         //edit colors
         var ctlStyle;
@@ -202,6 +188,7 @@ var cloud = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
         map.on(L.Draw.Event.CREATED, function (e) {
           const layer = e.layer;
           fDrawGroup.addLayer(layer);});
+
 //save and send data to server 
 function saveDrawnFeatures() {
   const drawnItems = fDrawGroup.getLayers();

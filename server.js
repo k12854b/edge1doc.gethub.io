@@ -2,10 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
-const path= require ('path');
 const app = express();
-app.use(express.static(path.join(__dirname, '/edge1doc')));
-app.use(cors());
 
     const pool = new Pool({
       user: 'postgres',  
@@ -15,11 +12,9 @@ app.use(cors());
       port: 5432,
   });
   app.use(bodyParser.json());
-  pool.connect();
 
-  app.post('/save-geojson', (req, res) => {
+  app.post('/save-geojson', async (req, res) => {
     const geoJsonData = req.body;
-
     const { type, properties, geometry } = geoJsonData;
 
      // Insert the GeoJSON data into the database
@@ -30,7 +25,7 @@ app.use(cors());
       RETURNING id
     `;
     const values = [type, properties, JSON.stringify(geometry)];
-    const result = pool.query(query, values);
+    const result = await pool.query(query, values);
 
     res.json({ message: 'GeoJSON data received and stored successfully', id: result.rows[0].id });
   } catch (error) {
