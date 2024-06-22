@@ -41,7 +41,7 @@ function sendGeoJsonToServer(geoJsonData) {
 }
 // Fetch GeoJSON data from the server and add it to the map
 function loadGeoJsonData() {
-  fetch('/get-geojson')
+  fetch('http://localhost:3000/get-geojson')
     .then(response => response.json())
     .then(data => {
       const geoJsonLayer = L.geoJson(data, {
