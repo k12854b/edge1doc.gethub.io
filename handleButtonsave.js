@@ -39,5 +39,3 @@ function sendGeoJsonToServer(geoJsonData) {
   .then(data => console.log('Success:', data))
   .catch((error) => console.error('Error:', error));
 }
-//load data from database back
-loadGeoJsonData();
