@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
 const app = express();
+const port = 3000;
 
     const pool = new Pool({
       user: 'postgres',  
@@ -44,4 +45,29 @@ app.post('/save-geojson', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
+});
+// Extend server.js to include this new endpoint
+
+app.get('/get-geojson', async (req, res) => {
+  try {
+    const query = 'SELECT id, type, properties, ST_AsGeoJSON(geometry) as geometry FROM geojson_features';
+    const result = await pool.query(query);
+
+    // Construct GeoJSON FeatureCollection
+    const features = result.rows.map(row => ({
+      type: 'Feature',
+      properties: row.properties,
+      geometry: JSON.parse(row.geometry)
+    }));
+
+    const geoJsonData = {
+      type: 'FeatureCollection',
+      features: features
+    };
+
+    res.json(geoJsonData);
+  } catch (error) {
+    console.error('Error fetching data from database:', error);
+    res.status(500).json({ error: 'Failed to fetch GeoJSON data' });
+  }
 });
