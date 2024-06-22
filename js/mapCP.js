@@ -148,7 +148,6 @@ var cloud = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
   }
   var overlayMaps ={
   'cloud':cloud,
-  'map':map,
   }
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 //leaflet draw
