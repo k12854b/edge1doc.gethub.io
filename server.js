@@ -12,6 +12,8 @@ const app = express();
       port: 5432,
   });
   app.use(bodyParser.json());
+  // Enable CORS for all routes
+app.use(cors());
 
   app.post('/save-geojson', async (req, res) => {
     const geoJsonData = req.body;
