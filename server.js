@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
+const path= require ('path');
 const app = express();
+app.use(express.static(path.join(__dirname, '/EDGE1DOC')));
 app.use(cors());
 
     const pool = new Pool({
@@ -36,6 +38,6 @@ app.use(cors());
     res.status(500).json({ error: 'Failed to store GeoJSON data' });
   }
 });
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+app.listen(8080, () => {
+  console.log('Server is running on port 8080');
 });
