@@ -23,7 +23,7 @@ function saveDrawnFeatures() {
 }
 
 function sendGeoJsonToServer(geoJsonData) {
-  fetch('/save-geojson', {
+  fetch('http://localhost:3000/save-geojson', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
