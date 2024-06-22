@@ -1,5 +1,4 @@
 const saveFeaturesButton = document.getElementById('save-features-btn');
-const drawnItems = []; // Assuming this array stores the drawn features
 
 // Add an event listener for the save button click
 saveFeaturesButton.addEventListener('click', handleSaveFeatures);
