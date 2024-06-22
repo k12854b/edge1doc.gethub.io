@@ -39,30 +39,5 @@ function sendGeoJsonToServer(geoJsonData) {
   .then(data => console.log('Success:', data))
   .catch((error) => console.error('Error:', error));
 }
-// Fetch GeoJSON data from the server and add it to the map
-function loadGeoJsonData() {
-  fetch('http://localhost:3000/get-geojson')
-    .then(response => response.json())
-    .then(data => {
-      const geoJsonLayer = L.geoJson(data, {
-        onEachFeature: function(feature, layer) {
-          // Apply the style from the properties
-          if (feature.properties && feature.properties.style) {
-            layer.setStyle(feature.properties.style);
-          }
-
-          // Bind popup or any other interaction here
-          if (feature.properties && feature.properties.popupContent) {
-            layer.bindPopup(feature.properties.popupContent);
-          }
-        }
-      }).addTo(map);
-
-      // Fit the map bounds to the new GeoJSON layer
-      map.fitBounds(geoJsonLayer.getBounds());
-    })
-    .catch(error => console.error('Error loading GeoJSON data:', error));
-}
-
-// Call this function to load and display the GeoJSON data
+//load data from database back
 loadGeoJsonData();

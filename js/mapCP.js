@@ -188,3 +188,29 @@ var cloud = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
         map.on(L.Draw.Event.CREATED, function (e) {
           const layer = e.layer;
           fDrawGroup.addLayer(layer);});
+
+// Fetch GeoJSON data from the server and add it to the map
+function loadGeoJsonData() {
+  fetch('http://localhost:3000/get-geojson')
+    .then(response => response.json())
+    .then(data => {
+      const geoJsonLayer = L.geoJson(data, {
+        onEachFeature: function(feature, layer) {
+          // Apply the style from the properties if the layer has a setStyle method
+          if (feature.properties && feature.properties.style && typeof layer.setStyle === 'function') {
+            layer.setStyle(feature.properties.style);
+          }
+
+          // Bind popup or any other interaction here
+          if (feature.properties && feature.properties.popupContent) {
+            layer.bindPopup(feature.properties.popupContent);
+          }
+        }
+      }).addTo(map);
+
+      // Fit the map bounds to the new GeoJSON layer
+      map.fitBounds(geoJsonLayer.getBounds());
+    })
+    .catch(error => console.error('Error loading GeoJSON data:', error));
+}
+loadGeoJsonData();
