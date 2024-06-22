@@ -38,6 +38,6 @@ app.use(cors());
     res.status(500).json({ error: 'Failed to store GeoJSON data' });
   }
 });
-app.listen(8080, () => {
-  console.log('Server is running on port 8080');
+app.listen(5433, () => {
+  console.log('Server is running on port 5433');
 });
