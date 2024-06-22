@@ -199,4 +199,6 @@ var cloud = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
         function latLngToString(ll) {
           return "["+ll.lat.toFixed(5)+","+ll.lng.toFixed(5)+"]";
         }
-        
+        map.on(L.Draw.Event.CREATED, function (e) {
+          const layer = e.layer;
+          fDrawGroup.addLayer(layer);});
