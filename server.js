@@ -15,11 +15,17 @@ const app = express();
   // Enable CORS for all routes
 app.use(cors());
 
-app.post('/save-geojson', async (req, res) => {
-  console.log('Received data:', req.body);  // Log received data
-    const { type, properties, geometry } = geoJsonData;
+// Middleware to parse JSON bodies
+app.use(bodyParser.json());
 
-     // Insert the GeoJSON data into the database
+// Endpoint to receive GeoJSON data
+app.post('/save-geojson', async (req, res) => {
+  const geoJsonData = req.body;
+
+  // Extract the necessary data from the GeoJSON object
+  const { type, properties, geometry } = geoJsonData;
+
+  // Insert the GeoJSON data into the database
   try {
     const query = `
       INSERT INTO geojson_features (type, properties, geometry)
@@ -35,6 +41,7 @@ app.post('/save-geojson', async (req, res) => {
     res.status(500).json({ error: 'Failed to store GeoJSON data' });
   }
 });
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
