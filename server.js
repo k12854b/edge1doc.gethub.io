@@ -15,7 +15,7 @@ app.use(cors());
   app.use(bodyParser.json());
   pool.connect();
 
-  app.post('/save-feature', (req, res) => {
+  app.post('/save-geojson', (req, res) => {
     const geoJsonData = req.body;
 
     const { type, properties, geometry } = geoJsonData;
