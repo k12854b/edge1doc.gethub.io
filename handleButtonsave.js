@@ -2,8 +2,10 @@ function saveDrawnFeatures() {
   const drawnItems = fDrawGroup.getLayers();
   drawnItems.forEach(layer => {
     const geoJson = layer.toGeoJSON();
-    const styleSettings = ctlStyle.getStyle(); // Assuming ctlStyle.getStyle() gives you the current style settings
 
+    // Retrieve the style settings from the layer itself
+    const styleSettings = layer.options;
+    
     const properties = {
       style: styleSettings
     };
