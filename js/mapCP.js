@@ -215,6 +215,7 @@ function saveDrawnFeatures() {
 }
 
 function sendGeoJsonToServer(geoJsonData) {
+  console.log('Sending data:', geoJsonData);  // Log data being sent
   fetch('/save-geojson', {
     method: 'POST',
     headers: {

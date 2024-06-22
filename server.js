@@ -15,8 +15,8 @@ const app = express();
   // Enable CORS for all routes
 app.use(cors());
 
-  app.post('/save-geojson', async (req, res) => {
-    const geoJsonData = req.body;
+app.post('/save-geojson', async (req, res) => {
+  console.log('Received data:', req.body);  // Log received data
     const { type, properties, geometry } = geoJsonData;
 
      // Insert the GeoJSON data into the database
