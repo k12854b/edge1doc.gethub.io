@@ -1,11 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { Client } = require('pg');
+const { Pool } = require('pg');
 const cors = require('cors');
 const app = express();
 app.use(cors());
 
-    const client = new Client({
+    const pool = new Pool({
       user: 'postgres',  
       host: 'localhost',
       database: 'edge1_CP', 
@@ -13,7 +13,7 @@ app.use(cors());
       port: 5432,
   });
   app.use(bodyParser.json());
-  client.connect();
+  pool.connect();
 
   app.post('/save-geojson', (req, res) => {
     const geoJsonData = req.body;
