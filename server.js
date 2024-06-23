@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
+const http = require('http');
+const socketIo = require('socket.io');
+const socketIoClient = require('socket.io-client');
 const app = express();
 const port = 3000;
 
@@ -16,8 +19,54 @@ const port = 3000;
   // Enable CORS for all routes
 app.use(cors());
 
-// Middleware to parse JSON bodies
-app.use(bodyParser.json());
+const server = http.createServer(app);
+const io = socketIo(server);
+
+const otherServerUrl = 'http://localhost:2000'; // URL of the other server
+const clientSocket = socketIoClient(otherServerUrl);
+
+io.on('connection', (socket) => {
+  console.log('New client connected');
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
+
+  socket.on('send-geojson', async (geoJsonData) => {
+    try {
+      const { type, properties, geometry } = geoJsonData;
+      const query = `
+        INSERT INTO geojson_features (type, properties, geometry)
+        VALUES ($1, $2, ST_SetSRID(ST_GeomFromGeoJSON($3), 4326))
+        RETURNING id
+      `;
+      const values = [type, properties, JSON.stringify(geometry)];
+      const result = await pool.query(query, values);
+      io.emit('receive-geojson', geoJsonData);  // Emit to all connected clients
+      clientSocket.emit('send-geojson', geoJsonData);  // Send to the other server
+      console.log('GeoJSON data saved and broadcasted');
+    } catch (error) {
+      console.error('Error inserting data into database:', error);
+    }
+  });
+});
+
+clientSocket.on('receive-geojson', async (geoJsonData) => {
+  try {
+    const { type, properties, geometry } = geoJsonData;
+    const query = `
+      INSERT INTO geojson_features (type, properties, geometry)
+      VALUES ($1, $2, ST_SetSRID(ST_GeomFromGeoJSON($3), 4326))
+      RETURNING id
+    `;
+    const values = [type, properties, JSON.stringify(geometry)];
+    await pool.query(query, values);
+    io.emit('receive-geojson', geoJsonData);  // Emit to all connected clients
+    console.log('GeoJSON data received from other server and saved');
+  } catch (error) {
+    console.error('Error inserting data into database:', error);
+  }
+});
 
 // Endpoint to receive GeoJSON data
 app.post('/save-geojson', async (req, res) => {
