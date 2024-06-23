@@ -72,7 +72,6 @@ clientSocket.on('receive-geojson', async (geoJsonData) => {
 app.post('/save-geojson', async (req, res) => {
   const geoJsonData = req.body;
 
-  // Extract the necessary data from the GeoJSON object
   const { type, properties, geometry } = geoJsonData;
 
   // Insert the GeoJSON data into the database
@@ -82,8 +81,11 @@ app.post('/save-geojson', async (req, res) => {
       VALUES ($1, $2, ST_SetSRID(ST_GeomFromGeoJSON($3), 4326))
       RETURNING id
     `;
-    const values = [type, properties, JSON.stringify(geometry)];
+    const values = [geoJsonData.type, geoJsonData.properties, JSON.stringify(geometry)];
     const result = await pool.query(query, values);
+
+    io.emit('receive-geojson', geoJsonData);  // Emit to all connected clients
+    clientSocket.emit('send-geojson', geoJsonData);  // Send to the other server
 
     res.json({ message: 'GeoJSON data received and stored successfully', id: result.rows[0].id });
   } catch (error) {
@@ -91,11 +93,6 @@ app.post('/save-geojson', async (req, res) => {
     res.status(500).json({ error: 'Failed to store GeoJSON data' });
   }
 });
-
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
-// Extend server.js to include this new endpoint
 
 app.get('/get-geojson', async (req, res) => {
   try {
@@ -131,3 +128,8 @@ app.delete('/delete-geojson', async (req, res) => {
     res.status(500).json({ error: 'Failed to delete GeoJSON data' });
   }
 });
+
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+// Extend server.js to include this new endpoint
