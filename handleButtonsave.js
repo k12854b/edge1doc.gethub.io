@@ -1,3 +1,14 @@
+const socket = io('http://localhost:3000');
+
+                  socket.on('connect', () => {
+                    console.log('Connected to server');
+                  });
+
+                  socket.on('receive-geojson', (geoJsonData) => {
+                    console.log('New GeoJSON data received', geoJsonData);
+                    addGeoJsonToMap(geoJsonData);
+                  });
+                  
 function saveDrawnFeatures() {
   const drawnItems = fDrawGroup.getLayers();
   drawnItems.forEach(layer => {
@@ -19,19 +30,9 @@ function saveDrawnFeatures() {
     };
 
     sendGeoJsonToServer(geoJsonData);
+    socket.emit('send-geojson', geoJsonData); // Emit to the server via WebSocket
   });
 }
-//socket structure 
-const socket = io('http://localhost:3000');
-
-socket.on('connect', () => {
-  console.log('Connected to server');
-});
-
-socket.on('receive-geojson', (geoJsonData) => {
-  console.log('New GeoJSON data received', geoJsonData);
-  addGeoJsonToMap(geoJsonData);
-});
 
 function sendGeoJsonToServer(geoJsonData) {
   fetch('http://localhost:3000/save-geojson', {
