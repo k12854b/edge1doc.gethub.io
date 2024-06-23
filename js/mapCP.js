@@ -159,7 +159,7 @@ var cloud = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
                     polyline: true,
                     polygon: true,
                     rectangle: false,
-                    circle: true,
+                    circle: false,
                     marker: true,
                     circlemarker: false
                 },

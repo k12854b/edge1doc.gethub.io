@@ -1,5 +1,3 @@
-const http = require('http');
-const socketIo = require('socket.io');
 function saveDrawnFeatures() {
   const drawnItems = fDrawGroup.getLayers();
   drawnItems.forEach(layer => {
@@ -24,6 +22,8 @@ function saveDrawnFeatures() {
   });
 }
 //socket structure 
+const http = require('http');
+const socketIo = require('socket.io');
 const socket = io('http://localhost:3000');
 
 socket.on('connect', () => {
