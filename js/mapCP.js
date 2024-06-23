@@ -175,8 +175,10 @@ var cloud = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
               map.on("draw:created", function(e)
               {
                 var type = e.layerType;
-              var layer = e.layer;
-              alert(JSON.stringify(drawnItems));
+                var layer= e.layer;
+                console.log(e)
+                fDrawGroup.addLayer(layer);
+                alert(JSON.stringify(e.layer.toGeoJSON()));
               });
         //edit colors
         var ctlStyle;
