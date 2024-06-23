@@ -81,7 +81,7 @@ app.post('/save-geojson', async (req, res) => {
       VALUES ($1, $2, ST_SetSRID(ST_GeomFromGeoJSON($3), 4326))
       RETURNING id
     `;
-    const values = [geoJsonData.type, geoJsonData.properties, JSON.stringify(geometry)];
+    const values = [type, properties, JSON.stringify(geometry)];
     const result = await pool.query(query, values);
 
     io.emit('receive-geojson', geoJsonData);  // Emit to all connected clients
