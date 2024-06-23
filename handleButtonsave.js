@@ -8,7 +8,7 @@ const socket = io('http://localhost:3000');
                     console.log('New GeoJSON data received', geoJsonData);
                     addGeoJsonToMap(geoJsonData);
                   });
-                  
+
 function saveDrawnFeatures() {
   const drawnItems = fDrawGroup.getLayers();
   drawnItems.forEach(layer => {
