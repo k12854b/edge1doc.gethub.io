@@ -5,31 +5,31 @@ let httpServer = require('http').createServer();
 let wsServer = require('ws').Server;
 
 let app = express();
-let http_port=3000;
+let http_port=2000;
 let ws = new wsServer({server: httpServer});
 
 
 httpServer.on('request', app);
 app.use(bodyParser.json());
 app.get('/', async (req, res) =>  {
-	  console.log('FOG 3000.OnIndexRequest');
+	  console.log('FOG 2000.OnIndexRequest');
 	  fs.createReadStream(__dirname+'/fog.html').pipe(res);
 	}
 );
 
 
 ws.on('connection', async (wsh) =>{
-	console.log('FOG-3000::WebSocket.OnConnection');
+	console.log('FOG-2000::WebSocket.OnConnection');
 	wsh.on('message',async(message)=>{
 		let rm=JSON.parse(message);
-		console.log('FOG-3000::WebSocket.OnMessag:Type =  '+rm.type);
+		console.log('FOG-2000::WebSocket.OnMessag:Type =  '+rm.type);
 		if(rm.type="id"){
 			wsh.owner=rm.src;
 			wsh.edge=rm.edge;
 			console.log('ws.owne: '+wsh.owner);
 		}
 		if(rm.type="data"){
-			console.log('FOG-3000::WebSocket.OnMessag data: =  '+message);
+			console.log('FOG-2000::WebSocket.OnMessag data: =  '+message);
 			ws.clients.forEach(function each(c) {
 				if (c.isAlive === false) return ;
 				if(c.edge===rm.edge)c.send(message);
@@ -37,7 +37,7 @@ ws.on('connection', async (wsh) =>{
 		}
 	});
 	wsh.on('close', () =>{
-		console.log('FOG-3000::WebSocket.OnClose');
+		console.log('FOG-2000::WebSocket.OnClose');
 	});
 });
 
