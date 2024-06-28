@@ -85,8 +85,5 @@ ws.on('connection', async (wsh) =>{
 	});
 });
 
-
-
-
 //Crete servers instances
 httpServer.listen(http_port, function(){console.log('EDGE 5502 http/ws server listening on ' +http_port);});
