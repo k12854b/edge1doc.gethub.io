@@ -119,6 +119,3 @@ app.delete('/delete-geojson', async (req, res) => {
     res.status(500).json({ error: 'Failed to delete GeoJSON data' });
   }
 });
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
