@@ -6,11 +6,11 @@ let express = require('express');
 let httpServer = require('http').createServer();
 let wsServer = require('ws').Server;
 
-app.use(cors());
+
 let app = express();
 let http_port=3000;
 let ws = new wsServer({server: httpServer});
-
+app.use(cors());
 
 httpServer.on('request', app);
 app.use(bodyParser.json());
