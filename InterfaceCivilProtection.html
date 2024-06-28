@@ -82,7 +82,6 @@
             </div>
             <div class="u-container-style u-grey-80 u-layout-cell u-size-20 u-layout-cell-2">
               <div class="u-container-layout u-container-layout-2">
-                <input type="text" id="messageInput" value="Test message"/><br>
                 <button id="btn1"  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-1">Send to fog </button>
                 
                 <button  onclick="saveDrawnFeatures()" id="btn2" class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-2">Share with my edge </button>
@@ -90,6 +89,9 @@
                 <button id="send-geojson-btn, btn4" onclick="sendDrawnFeatures()"  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-3">Send to P12</button>
                 
                 <button onclick="deleteAllGeoJson()"  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-hover-grey-75 u-radius-50 u-text-active-white u-btn-4">Disaster cleared </button>
+
+                <input type="text" id="messageInput" value="Test message"/><br>
+                
                 <script>
                   //data from login
                   let me="P11";
