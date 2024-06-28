@@ -16,19 +16,19 @@ app.get('/', async (req, res) =>  {
 	  fs.createReadStream(__dirname+'/edge.html').pipe(res);
 	}
 );
-app.get('/InterfaceCivilProtection', async (req, res) =>  {
+app.get('/p11', async (req, res) =>  {
 	  console.log('EDGE 5502.OnIndexRequest');
-	  fs.createReadStream(__dirname+'/InterfaceCivilProtection.html').pipe(res);
+	  fs.createReadStream(__dirname+'/p11.html').pipe(res);
 	}
 );
-app.get('/InterfacePolice', async (req, res) =>  {
+app.get('/p12', async (req, res) =>  {
 	  console.log('EDGE 5502.OnIndexRequest');
-	  fs.createReadStream(__dirname+'/InterfacePolice.html').pipe(res);
+	  fs.createReadStream(__dirname+'/p12.html').pipe(res);
 	}
 );
-app.get('/InterfaceSAMU', async (req, res) =>  {
+app.get('/p13', async (req, res) =>  {
 	  console.log('EDGE 5502.OnIndexRequest');
-	  fs.createReadStream(__dirname+'/InterfaceSAMU.html').pipe(res);
+	  fs.createReadStream(__dirname+'/p13.html').pipe(res);
 	}
 );
 
@@ -85,5 +85,9 @@ ws.on('connection', async (wsh) =>{
 	});
 });
 
+
+
+
 //Crete servers instances
 httpServer.listen(http_port, function(){console.log('EDGE 5502 http/ws server listening on ' +http_port);});
+

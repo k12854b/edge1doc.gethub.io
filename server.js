@@ -1,52 +1,9 @@
+const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
-let fs = require('fs');
-let express = require('express');
-let httpServer = require('http').createServer();
-let wsServer = require('ws').Server;
-
-
-let app = express();
-let http_port=3000;
-let ws = new wsServer({server: httpServer});
-app.use(cors());
-
-httpServer.on('request', app);
-app.use(bodyParser.json());
-app.get('/', async (req, res) =>  {
-	  console.log('FOG 3000.OnIndexRequest');
-	  fs.createReadStream(__dirname+'/fog.html').pipe(res);
-	}
-);
-
-
-ws.on('connection', async (wsh) =>{
-	console.log('FOG-3000::WebSocket.OnConnection');
-	wsh.on('message',async(message)=>{
-		let rm=JSON.parse(message);
-		console.log('FOG-3000::WebSocket.OnMessag:Type =  '+rm.type);
-		if(rm.type="id"){
-			wsh.owner=rm.src;
-			wsh.edge=rm.edge;
-			console.log('ws.owne: '+wsh.owner);
-		}
-		if(rm.type="data"){
-			console.log('FOG-3000::WebSocket.OnMessag data: =  '+message);
-			ws.clients.forEach(function each(c) {
-				if (c.isAlive === false) return ;
-				if(c.edge===rm.edge)c.send(message);
-			});
-		}
-	});
-	wsh.on('close', () =>{
-		console.log('FOG-3000::WebSocket.OnClose');
-	});
-});
-
-//Crete servers instances
-httpServer.listen(http_port, function(){console.log('http/ws server listening on ' +http_port);});
-
+const app = express();
+const port = 3000;
 
     const pool = new Pool({
       user: 'postgres',  
@@ -55,7 +12,12 @@ httpServer.listen(http_port, function(){console.log('http/ws server listening on
       password: '1234',  
       port: 5432,
   });
+  app.use(bodyParser.json());
+  // Enable CORS for all routes
+app.use(cors());
 
+// Middleware to parse JSON bodies
+app.use(bodyParser.json());
 
 // Endpoint to receive GeoJSON data
 app.post('/save-geojson', async (req, res) => {
@@ -118,4 +80,7 @@ app.delete('/delete-geojson', async (req, res) => {
     console.error('Error deleting data from database:', error);
     res.status(500).json({ error: 'Failed to delete GeoJSON data' });
   }
+});
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
