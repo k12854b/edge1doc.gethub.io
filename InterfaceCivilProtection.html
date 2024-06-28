@@ -82,12 +82,67 @@
             </div>
             <div class="u-container-style u-grey-80 u-layout-cell u-size-20 u-layout-cell-2">
               <div class="u-container-layout u-container-layout-2">
-                <button onclick=""  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-1">Send invitation </button>
+                <input type="text" id="messageInput" value="Test message"/><br>
+                <button id="btn1"  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-1">Send to fog </button>
                 
-                <button  onclick="saveDrawnFeatures()" class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-2">Share to my team </button>
-                <button id="send-geojson-btn" onclick="sendDrawnFeatures()"  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-3">Share to other teams</button>
+                <button  onclick="saveDrawnFeatures()" id="btn2" class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-2">Share with my edge </button>
+                <button id="send-geojson-btn, share with my edge" onclick="sendDrawnFeatures()"  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-3">share with edge 5503</button>
+                <button id="send-geojson-btn, btn4" onclick="sendDrawnFeatures()"  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-hover-grey-75 u-palette-2-base u-radius-50 u-text-active-white u-btn-3">Send to P12</button>
                 
                 <button onclick="deleteAllGeoJson()"  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-hover-grey-75 u-radius-50 u-text-active-white u-btn-4">Disaster cleared </button>
+                <script>
+                  //data from login
+                  let me="P11";
+                  let medge="EDGE-5502";
+                  const socket = new WebSocket('ws://localhost:5502');
+                  socket.addEventListener('open',  () => {
+                    let message={type:"id",src:me,dst:"server"};
+                    socket.send(JSON.stringify(message));
+                    console.log('Connected to server');
+                  });
+            
+                  socket.addEventListener('message', (event) => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.textContent = event.data;
+                    document.getElementById('messages').appendChild(messageDiv);
+                  });
+            
+                  document.getElementById('btn1').addEventListener('click', () => {
+                    const messageInput = document.getElementById('messageInput');
+                    const data = messageInput.value;
+                    
+                    let message={type:"data",src:me,dst:"FOG",data:data};
+                    socket.send(JSON.stringify(message));
+                    //messageInput.value = '';
+                  });
+                  
+                  document.getElementById('btn2').addEventListener('click', () => {
+                    const messageInput = document.getElementById('messageInput');
+                    const data = messageInput.value;
+                    
+                    let message={type:"data",src:me,edge:medge,dst:"all", data:data};
+                    socket.send(JSON.stringify(message));
+                    //messageInput.value = '';
+                  });
+                  
+                  document.getElementById('btn3').addEventListener('click', () => {
+                    const messageInput = document.getElementById('messageInput');
+                    const data = messageInput.value;
+                    
+                    let message={type:"data",src:me,edge:"EDGE-5503",dst:"all", data:data};
+                    socket.send(JSON.stringify(message));
+                    //messageInput.value = '';
+                  });
+                  
+                  document.getElementById('btn4').addEventListener('click', () => {
+                    const messageInput = document.getElementById('messageInput');
+                    const data = messageInput.value;
+                    
+                    let message={type:"data",src:me,edge:medge,dst:"P12", data:data};
+                    socket.send(JSON.stringify(message));
+                    //messageInput.value = '';
+                  });
+               </script>
               </div>
             </div>
             </div>

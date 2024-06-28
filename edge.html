@@ -1,0 +1,40 @@
+<html lang="en">      
+	<head>
+		 <title>EDGE</title>
+	</head>
+<body>
+   <h1>EDGE</h1>
+   <input type="text" id="messageInput"/>
+   <button id="sendButton">
+      Send
+   </button>
+   <div id="messages">  </div>
+
+   <script>
+			//data from login
+			let me="E-5502";
+      const socket = new WebSocket('ws://localhost:5502');
+      socket.addEventListener('open',  () => {
+				
+				//let msg={type:"id",src:"fog",mycloud:"cloud",myfog:"fog-300",dst:"fog",dstcloud:"cloud",dstfog:"fog-300":}
+				let message={type:"id",src:me,dst:"server"};
+				socket.send(JSON.stringify(message));
+				console.log('Connected to server');
+      });
+
+      socket.addEventListener('message', (event) => {
+				const messageDiv = document.createElement('div');
+				messageDiv.textContent = event.data;
+				document.getElementById('messages').appendChild(messageDiv);
+      });
+
+      document.getElementById('sendButton').addEventListener('click', () => {
+				const messageInput = document.getElementById('messageInput');
+				const message = messageInput.value;
+				socket.send(message);
+				messageInput.value = '';
+      });
+   </script>
+</body>
+</html>
+
