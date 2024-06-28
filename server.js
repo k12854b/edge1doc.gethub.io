@@ -3,7 +3,6 @@ const { Pool } = require('pg');
 const cors = require('cors');
 let fs = require('fs');
 let express = require('express');
-let bodyParser = require('body-parser');
 let httpServer = require('http').createServer();
 let wsServer = require('ws').Server;
 
