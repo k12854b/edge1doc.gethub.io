@@ -134,7 +134,7 @@
       vertical-align: middle; }
   .fr-view .fr-text-gray {
     color: #AAA !important; }
-  .fr-view .fr-text-bordered {
+  .fr-view .fr-text-bordered .messageInput {
     border-top: solid 1px #222;
     border-bottom: solid 1px #222;
     padding: 10px 0; }
