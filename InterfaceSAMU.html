@@ -69,6 +69,62 @@
               <div class="u-container-layout u-container-layout-2">
                 <img class="u-image u-image-contain u-image-default u-image-1" src="images/pngwing.com.png" alt="" data-image-width="2252" data-image-height="1894">
                 <button onclick="deleteAllGeoJson()"  class="u-align-center u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-hover-grey-75 u-radius-50 u-text-active-white u-btn-4">Disaster cleared </button>
+
+                <input type="text" id="messageInput" value="Test message"/><br>
+                <div id="messages">  </div>
+                <script>
+                  //data from login
+                  let me="P12";
+                  let medge="EDGE-5502";
+                  const socket = new WebSocket('ws://localhost:5502');
+                  socket.addEventListener('open',  () => {
+                    let message={type:"id",src:me,dst:"server"};
+                    socket.send(JSON.stringify(message));
+                    console.log('Connected to server');
+                  });
+            
+                  socket.addEventListener('message', (event) => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.textContent = event.data;
+                    document.getElementById('messages').appendChild(messageDiv);
+                  });
+            
+                  document.getElementById('btn1').addEventListener('click', () => {
+                    const messageInput = document.getElementById('messageInput');
+                    const data = messageInput.value;
+                    
+                    let message={type:"data",src:me,dst:"FOG",data:data};
+                    socket.send(JSON.stringify(message));
+                    //messageInput.value = '';
+                  });
+                  
+                  document.getElementById('btn2').addEventListener('click', () => {
+                    const messageInput = document.getElementById('messageInput');
+                    const data = messageInput.value;
+                    
+                    let message={type:"data",src:me,edge:medge,dst:"all", data:data};
+                    socket.send(JSON.stringify(message));
+                    //messageInput.value = '';
+                  });
+                  
+                  document.getElementById('btn3').addEventListener('click', () => {
+                    const messageInput = document.getElementById('messageInput');
+                    const data = messageInput.value;
+                    
+                    let message={type:"data",src:me,edge:"EDGE-5503",dst:"all", data:data};
+                    socket.send(JSON.stringify(message));
+                    //messageInput.value = '';
+                  });
+                  
+                  document.getElementById('btn4').addEventListener('click', () => {
+                    const messageInput = document.getElementById('messageInput');
+                    const data = messageInput.value;
+                    
+                    let message={type:"data",src:me,edge:medge,dst:"P11", data:data};
+                    socket.send(JSON.stringify(message));
+                    //messageInput.value = '';
+                  });
+               </script>
               </div>
             </div>
               </div>
