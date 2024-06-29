@@ -37,7 +37,7 @@ app.get('/p13', async (req, res) =>  {
 let me="EDGE-5502"
 //WebSocket Client for communicating with the fog
 const WebSocket = require('ws');
-const wsc = new WebSocket('ws://127.0.0.1:3000');
+const wsc = new WebSocket('ws://127.0.0.1:2000');
 wsc.on('error', console.error);
 wsc.on('open', function open() {
 	console.log('EDGE 5502::WebSocket client open');
