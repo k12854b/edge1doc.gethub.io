@@ -74,7 +74,7 @@
                 <div id="messages">  </div>
                 <script>
                   //data from login
-                  let me="P12";
+                  let me="P13";
                   let medge="EDGE-5502";
                   const socket = new WebSocket('ws://localhost:5502');
                   socket.addEventListener('open',  () => {
@@ -87,42 +87,6 @@
                     const messageDiv = document.createElement('div');
                     messageDiv.textContent = event.data;
                     document.getElementById('messages').appendChild(messageDiv);
-                  });
-            
-                  document.getElementById('btn1').addEventListener('click', () => {
-                    const messageInput = document.getElementById('messageInput');
-                    const data = messageInput.value;
-                    
-                    let message={type:"data",src:me,dst:"FOG",data:data};
-                    socket.send(JSON.stringify(message));
-                    //messageInput.value = '';
-                  });
-                  
-                  document.getElementById('btn2').addEventListener('click', () => {
-                    const messageInput = document.getElementById('messageInput');
-                    const data = messageInput.value;
-                    
-                    let message={type:"data",src:me,edge:medge,dst:"all", data:data};
-                    socket.send(JSON.stringify(message));
-                    //messageInput.value = '';
-                  });
-                  
-                  document.getElementById('btn3').addEventListener('click', () => {
-                    const messageInput = document.getElementById('messageInput');
-                    const data = messageInput.value;
-                    
-                    let message={type:"data",src:me,edge:"EDGE-5503",dst:"all", data:data};
-                    socket.send(JSON.stringify(message));
-                    //messageInput.value = '';
-                  });
-                  
-                  document.getElementById('btn4').addEventListener('click', () => {
-                    const messageInput = document.getElementById('messageInput');
-                    const data = messageInput.value;
-                    
-                    let message={type:"data",src:me,edge:medge,dst:"P11", data:data};
-                    socket.send(JSON.stringify(message));
-                    //messageInput.value = '';
                   });
                </script>
               </div>
