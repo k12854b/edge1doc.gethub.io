@@ -32,8 +32,6 @@ app.get('/p13', async (req, res) =>  {
 	}
 );
 
-
-
 let me="EDGE-5502"
 //WebSocket Client for communicating with the fog
 const WebSocket = require('ws');
@@ -62,7 +60,7 @@ ws.on('connection', async (wsh) =>{
 			console.log('wsh.owne: '+wsh.owner);
 		}
 		if(rm.type="data"){
-			console.log('FOG-3000::WebSocket.OnMessag data: =  '+message);
+			console.log('FOG-2000::WebSocket.OnMessag data: =  '+message);
 			if(rm.edge=="EDGE-5502"){
 				if(rm.dst="all"){
 					wsh.clients.forEach(function each(c) {
