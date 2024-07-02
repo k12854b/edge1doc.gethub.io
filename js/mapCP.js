@@ -193,7 +193,7 @@ var cloud = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
 
 // Fetch GeoJSON data from the server and add it to the map
 function loadGeoJsonData() {
-  fetch('http://localhost:3000/get-geojson')
+  fetch('http://localhost:2000/get-geojson')
     .then(response => response.json())
     .then(data => {
       const geoJsonLayer = L.geoJson(data, {
@@ -219,7 +219,7 @@ loadGeoJsonData();
 
 // Function to delete all GeoJSON data
       function deleteAllGeoJson() {
-        fetch('http://localhost:3000/delete-geojson', {
+        fetch('http://localhost:2000/delete-geojson', {
           method: 'DELETE'
         })
         .then(response => response.json())
